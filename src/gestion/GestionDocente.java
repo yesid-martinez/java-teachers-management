@@ -10,20 +10,23 @@ public class GestionDocente {
 
     public GestionDocente() {
         this.recuperar();
-        if (this.docentes == null){
-            docentes = new ArrayList<>();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void recuperar (){
+        AlmacenamArchivos almacenamiento = new AlmacenamArchivos("docentes-data.abc");
+        Object list = almacenamiento.recuperar();
+        if (list instanceof ArrayList<?>) {
+            this.docentes = (ArrayList<Docente>) list;
+        } else {
+            this.docentes = new ArrayList<>();
+            System.err.println("El archivo no contiene una lista válida de docentes");
         }
     }
 
-    private void recuperar (){
-        AlmacenamArchivos almacenamiento = new AlmacenamArchivos("docentes.abc");
-        this.docentes =  (ArrayList<Docente>)almacenamiento.recuperar();
-    }
-
-    public boolean adicionar(Docente d) {
+    public void adicionar(Docente d) {
         docentes.add(d);
         this.almacenar();
-        return true;
     }
 
     public void listar(){
@@ -33,9 +36,8 @@ public class GestionDocente {
             System.out.println(docente);
         }
     }
-    private boolean almacenar(){
-        AlmacenamArchivos almacenaArchivos = new AlmacenamArchivos("docentes-data.abc");
-        almacenaArchivos.almacenar(this.docentes);
-        return true;
+    private void almacenar(){
+        AlmacenamArchivos almacenamiento = new AlmacenamArchivos("docentes-data.abc");
+        almacenamiento.almacenar(this.docentes);
     }
 }

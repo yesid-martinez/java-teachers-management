@@ -1,8 +1,11 @@
 package dto;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
+
+// Objects to be saved must implement the Serializable interface.
+import java.io.Serializable;
+// Serializing means converting an object into a sequence of bytes that can be stored in a file or sent over a network
 
 public class Docente implements Serializable {
     private String nombre;

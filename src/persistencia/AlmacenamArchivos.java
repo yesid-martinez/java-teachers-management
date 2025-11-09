@@ -10,10 +10,12 @@ public class AlmacenamArchivos implements Persistencia{
     }
 
     @Override
-    public boolean almacenar(Object objeto) {
-
+    public boolean almacenar(Object listaObjetos) {
+        // ObjectOutputStream -> Converts an object to bytes and writes it to a file
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo))) {
-            oos.writeObject(objeto);
+            oos.writeObject(listaObjetos);
+            // oos.close(); X Not necessary
+            // Java automatically ensures that the resource (oos) is closed when the try block ends.
             System.out.println("Objeto guardado en archivo binario: " + rutaArchivo);
             return true;
         } catch (IOException e) {
@@ -25,8 +27,8 @@ public class AlmacenamArchivos implements Persistencia{
 
     @Override
     public Object recuperar() {
-
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
+        //ObjectInputStream → reads those bytes and reconstructs the original object
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) { // Rebuild the object in memory (deserialization)
             while (true) {
                 try {
                     return ois.readObject();
